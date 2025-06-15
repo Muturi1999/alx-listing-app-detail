@@ -1,54 +1,36 @@
-import Head from 'next/head';
-import Card from '../components/common/Card';
-import Button from '../components/common/Button';
-import { SAMPLE_LISTINGS } from '../constants';
+import { PROPERTYLISTINGSAMPLE } from "../constants";
+import { PropertyProps } from "../interfaces";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Head>
-        <title>ALX Listing App</title>
-        <meta name="description" content="An Airbnb clone for ALX project" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className="container mx-auto px-4 py-8">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Find your next stay</h1>
-          <p className="text-gray-600">Discover amazing places to stay around the world</p>
-        </header>
-
-        <section className="mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Featured Listings</h2>
-            <Button 
-              text="View All" 
-              variant="outline" 
-              size="small" 
-            />
+    <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+      {PROPERTYLISTINGSAMPLE.map((property: PropertyProps, index: number) => (
+        <div key={index} className="bg-white rounded shadow overflow-hidden">
+          <img
+            src={property.image}
+            alt={property.name}
+            className="w-full h-48 object-cover"
+          />
+          <div className="p-4">
+            <h2 className="text-xl font-bold">{property.name}</h2>
+            <p className="text-sm text-gray-600">
+              {property.address.city}, {property.address.country}
+            </p>
+            <p className="text-sm">Rating: {property.rating}</p>
+            <div className="flex flex-wrap gap-2 my-2">
+              {property.category.map((cat, i) => (
+                <span
+                  key={i}
+                  className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded"
+                >
+                  {cat}
+                </span>
+              ))}
+            </div>
+            <p className="text-lg font-semibold">${property.price} / night</p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {SAMPLE_LISTINGS.map((listing) => (
-              <Card
-                key={listing.id}
-                id={listing.id}
-                title={listing.title}
-                description={listing.description}
-                image={listing.image}
-                price={listing.price}
-                location={listing.location}
-              />
-            ))}
-          </div>
-        </section>
-      </main>
-
-      <footer className="bg-gray-100 py-6">
-        <div className="container mx-auto px-4 text-center text-gray-600">
-          <p>© 2025 ALX Listing App. All rights reserved.</p>
         </div>
-      </footer>
+      ))}
     </div>
   );
 }
